@@ -24,6 +24,7 @@
             "error",
             120
         ],
-        "padded-blocks": "off"
+        "padded-blocks": "off",
+        "space-infix-ops": "error"
     }
 }
