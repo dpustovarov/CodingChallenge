@@ -1,5 +1,6 @@
 'use strict';
 
+// Wrong Answer
 function solve(words) {
   const list = words.map((v) => [...v].reverse().join('')).sort();
 
@@ -39,7 +40,7 @@ function solve(words) {
     const N = await line() | 0;
     for (var words = []; words.length < N; words.push(await line()));
 
-    console.log(`Case #${i+1}: ${solve(words)}`);
+    console.log(`Case #${i + 1}: ${solve(words)}`);
   }
 
   if (process.env.USER === 'dpustovarov') console.timeEnd();
