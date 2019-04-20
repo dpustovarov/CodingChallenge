@@ -1,25 +1,24 @@
 'use strict';
 
-function request(){
-}
+function request() {}
 
-function solve() {
-}
+function solve() {}
 
-(async () => {
+(async() => {
   console.time();
 
   const rl = require('readline').createInterface(process.stdin);
-  const generator = (async function* () {
+  const generator = (async function*() {
     for await (const line of rl) yield line;
   })();
-  const line = async () => (await generator.next()).value;
-  const intList = async () => (await line()).split(' ').map((v) => v | 0);
-  const bigIntList = async () => (await line()).split(' ').map((v) => BigInt(v));
+  const line = async() => (await generator.next()).value;
+  const intList = async() => (await line()).split(' ').map((v) => v | 0);
+  const bigIntList = async() => (await line()).split(' ').map((v) => BigInt(v));
 
   const T = await line() | 0;
   for (let i = 0; i < T; i++) {
     const [R, C] = await intList();
+    for (var rows = []; rows.length < R; rows.push(await intList()));
 
     console.log(`Case #${i+1}: ${solve(R, C)}`);
   }
