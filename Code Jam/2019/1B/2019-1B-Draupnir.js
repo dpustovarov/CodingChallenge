@@ -1,24 +1,27 @@
 'use strict';
 
-const req = [42, 210];
+const size = 7;
+const requests = [2 * 3 * size, 5 * 6 * size];
 function request(i) {
-  return req[i];
+  return requests[i];
 }
 
 function solve(responses) {
-  const R = new Array(6);
+  const R = new Array(6+1);
 
-  let v = responses[1];
-  R[3] = v >> 52n & 0x7Fn;
-  R[4] = v >> 42n & 0x7Fn;
-  R[5] = v >> 35n & 0x7Fn;
+  const mask = BigInt((1 << size) - 1); 
+  let r = BigInt(requests[1]); let v = responses[1];
+  for (let i = 4n; i <= 6n; i++) 
+    R[i] = v >> r / i & mask;
+    
+  r = BigInt(requests[0]); v = responses[0];
+  for (let i = 4n; i <= 6n; i++) 
+    v -= R[i] << r / i;
+  for (let i = 1n; i <= 3n; i++) 
+    R[i] = v >> r / i & mask;
 
-  v = responses[0] - (R[3] << 10n) - (R[4] << 8n) - (R[5] << 7n);
-  R[0] = v >> 42n & 0x7Fn;
-  R[1] = v >> 21n & 0x7Fn;
-  R[2] = v >> 14n & 0x7Fn;
-
-  return R.map((v) => v & 0x7Fn);
+  R.shift();
+  return R;
 }
 
 (async() => {
@@ -33,8 +36,9 @@ function solve(responses) {
 
   // Interactive tasks
   const [T, W] = await intList();
+
   for (let i = 0; i < T; i++) {
-    for (var responses = []; responses.length < req.length; responses.push(BigInt(await line()))) {
+    for (var responses = []; responses.length < requests.length; responses.push(BigInt(await line()))) {
       console.log(request(responses.length));
     }
 
